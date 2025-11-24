@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+ html, body, #app {
+	height: 100%;
+}
+
+body {
+	@apply bg-gray-50 text-gray-800 antialiased;
+	font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+
+
+.btn-primary {
+	@apply bg-primary text-white px-4 py-2 rounded shadow hover:opacity-95;
+}
+
+.thumb {
+	@apply w-12 h-12 rounded-full object-cover;
+}
+
+.card {
+	@apply bg-white rounded-lg shadow p-4;
+}
+
+.truncate-100 {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+} 
