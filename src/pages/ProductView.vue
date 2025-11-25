@@ -3,6 +3,10 @@
     <!-- Top Navbar -->
     <nav class="flex items-center justify-between px-12 py-6 bg-white shadow-sm">
       <div class="flex items-center gap-3">
+        <button @click="goBack" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg px-4 py-2 flex items-center gap-2 shadow transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="#000080" stroke-width="2"/></svg>
+          Back to Home
+        </button>
         <div class="w-8 h-8 rounded-lg bg-[#1a237e] flex items-center justify-center">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="2"/></svg>
         </div>
@@ -49,10 +53,28 @@
         <div class="flex-1">
           <div class="flex items-center justify-between mb-2">
             <h1 class="text-4xl font-bold text-gray-900">{{ product.title }}</h1>
-            <button class="bg-[#eef0fa] text-[#1a237e] font-semibold px-5 py-2 rounded-lg flex items-center gap-2 shadow hover:bg-indigo-50">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 5v14m7-7H5" stroke="#1a237e" stroke-width="2"/></svg>
-              Edit Product
-            </button>
+            <div class="flex items-center gap-2">
+              <button
+                @click="editProduct"
+                title="Edit Product"
+                class="bg-[#eef0fa] text-[#1a237e] px-3 py-2 rounded-lg flex items-center gap-1 shadow hover:bg-indigo-50"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13z" stroke="#1a237e" stroke-width="2"/>
+                </svg>
+                Edit
+              </button>
+              <button
+                @click="confirmDelete"
+                title="Delete Product"
+                class="bg-red-50 text-red-700 px-3 py-2 rounded-lg flex items-center gap-1 shadow hover:bg-red-100"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12zM19 7V5a2 2 0 00-2-2H7a2 2 0 00-2 2v2" stroke="#c62828" stroke-width="2"/>
+                </svg>
+                Delete
+              </button>
+            </div>
           </div>
           <p class="mt-2 text-gray-600 text-lg">A stylish and durable jacket made from genuine leather, perfect for all seasons.</p>
           <div class="mt-6 grid grid-cols-2 gap-8">
@@ -137,14 +159,24 @@ async function load() {
   }
 }
 
-function goBack() { router.back() }
+function goBack() { router.push({ name: 'Products' }) }
 
 function confirmDelete() { showConfirm.value = true }
 
 async function deleteItem() {
-  await store.deleteProduct(id)
-  showConfirm.value = false
-  router.push({ name: 'Products' })
+  try {
+    await store.deleteProduct(id)
+    await store.fetchProducts()
+    showConfirm.value = false
+    router.push({ name: 'Products' })
+  } catch (err) {
+    alert(err.message || 'Failed to delete product')
+    showConfirm.value = false
+  }
+}
+
+function editProduct() {
+  router.push({ name: 'AddProduct', params: { id } })
 }
 
 function reviewPercent(star) {

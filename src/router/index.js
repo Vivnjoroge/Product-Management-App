@@ -7,7 +7,7 @@ const ProductView = () => import('../pages/ProductView.vue')
 const AddProduct = () => import('../pages/AddProduct.vue')
 
 const routes = [
-  { path: '/', redirect: '/products' },
+  { path: '/', redirect: '/login' },
   { path: '/login', name: 'Login', component: Login },
   { path: '/products', name: 'Products', component: Products, meta: { requiresAuth: true } },
   { path: '/products/new', name: 'AddProduct', component: AddProduct, meta: { requiresAuth: true } },

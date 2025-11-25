@@ -15,9 +15,6 @@ const route = useRoute()
       <main class="container mx-auto px-4 py-6 flex-1">
         <router-view />
       </main>
-      <footer v-if="route.name !== 'Login'" class="text-center text-sm text-gray-500 py-6">
-        <div>AlienSoft Technologies — Internship Assessment • Nairobi, Kenya</div>
-      </footer>
     </div>
   </div>
 </template>

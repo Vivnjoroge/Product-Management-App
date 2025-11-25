@@ -106,6 +106,7 @@
       </div>
     </main>
     <ConfirmModal v-if="showDeleteModal" title="Delete product" message="Are you sure you want to delete this product?" @confirm="confirmDelete" @cancel="cancelDelete" />
+<!-- Ensure ConfirmModal is rendered outside the table and main content for proper z-index and event handling -->
   </div>
 </template>
 
@@ -131,17 +132,23 @@ function viewProduct(id) {
   router.push({ name: 'ProductView', params: { id } })
 }
 function editProduct(id) {
-  router.push({ name: 'EditProduct', params: { id } })
+  router.push({ name: 'AddProduct', params: { id } })
 }
 function deleteProduct(id) {
   productToDelete.value = id
   showDeleteModal.value = true
 }
 async function confirmDelete() {
-  await store.deleteProduct(productToDelete.value)
-  showDeleteModal.value = false
-  productToDelete.value = null
-  load()
+  try {
+    await store.deleteProduct(productToDelete.value)
+    showDeleteModal.value = false
+    productToDelete.value = null
+    await load()
+  } catch (err) {
+    alert(err.message || 'Failed to delete product')
+    showDeleteModal.value = false
+    productToDelete.value = null
+  }
 }
 function cancelDelete() {
   showDeleteModal.value = false
