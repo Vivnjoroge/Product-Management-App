@@ -113,8 +113,16 @@ const router = useRouter()
 const auth = useAuthStore()
 const loading = ref(false)
 const error = ref(null)
-// DummyJSON currently accepts 'emilys' as a demo user; adjust as needed
-const form = reactive({ username: 'emilys', password: 'emilyspass' })
+// Empty form by default so users must enter credentials
+const form = reactive({ username: '', password: '' })
+// On mount, clear any previous session if not authenticated
+import { onMounted } from 'vue'
+onMounted(() => {
+  if (!auth.isAuthenticated) {
+    localStorage.removeItem('pm_token')
+    localStorage.removeItem('pm_user')
+  }
+})
 const showPassword = ref(false)
 const remember = ref(true)
 
