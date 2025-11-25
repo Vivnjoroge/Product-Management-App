@@ -4,5 +4,6 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  base: '/https://github.com/Vivnjoroge/Product-Management-App/'  
+  base: '/Product-Management-App/'
+
 })
